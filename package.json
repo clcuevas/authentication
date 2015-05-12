@@ -1,0 +1,29 @@
+{
+  "name": "authentication",
+  "version": "0.1.0",
+  "description": "Authentication ================= This repo is for the Authentication assignment.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omordn/authentication.git"
+  },
+  "author": "omordn@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/omordn/authentication/issues"
+  },
+  "homepage": "https://github.com/omordn/authentication",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.12.4",
+    "eat": "^0.1.1",
+    "express": "^4.12.3",
+    "mongoose": "^4.0.2",
+    "passport": "^0.2.1",
+    "passport-http": "^0.2.2"
+  }
+}
