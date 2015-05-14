@@ -11,25 +11,19 @@ var userSchema = mongoose.Schema({
   }
 });
 
-userSchema.pre('save', function (next) {
-    var user = this;
-    if (this.isModified('password') || this.isNew && (this.basic.password.length != 0)) {
-        bcrypt.genSalt(8, function (err, salt) {
-            if (err) {
-                return next(err);
-            }
-            bcrypt.hash(user.basic.password, salt, null, function (err, hash) {
-                if (err) {
-                    return next(err);
-                }
-                user.basic.password = hash;
-                next();
-            });
-        });
-    } else {
-        return next();
+userSchema.methods.generateHash = function(password, callback) {
+  bcrypt.genSalt(8, function(err, salt) {
+    if(err) {
+      return console.log(err);
     }
-});
+    bcrypt.hash(password, salt, null, function(err, hash) {
+      if(err) {
+        return console.log(err);
+      }
+      return callback(null, hash);
+    });
+  });
+};
 
 userSchema.methods.checkPassword = function(password) {
   bcrypt.compare(password, this.basic.password, function(err, result) {
@@ -37,9 +31,7 @@ userSchema.methods.checkPassword = function(password) {
       console.log(err);
       return console.log('there was an error'); 
     }
-    if(result) {
-      result = true;
-    }   
+    return result = true; 
   });
 };
 

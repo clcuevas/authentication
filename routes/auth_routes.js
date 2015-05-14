@@ -2,7 +2,6 @@
 
 var User = require('../models/User.js');
 var bodyparser = require('body-parser');
-//var passport = require('passport');
 
 module.exports = function(router, passport) {
   router.use(bodyparser.json());
@@ -16,7 +15,14 @@ module.exports = function(router, passport) {
     var newUser = new User(newUserData);
     newUser.username = req.body.username;
     newUser.basic.email = req.body.email;
-    newUser.basic.password = req.body.password;
+    newUser.basic.password = newUser.generateHash(req.body.password, function(err, hash) {
+      if(err) {
+        console.log(err);
+        res.status(500).json({msg: 'could not save password'});
+      }
+
+      newUser.basic.password = hash;
+    });
     newUser.save(function(err, data) {
       if(err) {
         console.log(err);
