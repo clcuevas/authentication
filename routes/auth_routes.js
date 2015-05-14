@@ -28,7 +28,6 @@ module.exports = function(router, passport) {
         console.log(err);
         res.status(500).json({msg: 'could not create user'});
       }
-      console.log(data);
       res.json({msg: 'user created'});
     });
   });

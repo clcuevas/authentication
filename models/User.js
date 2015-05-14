@@ -20,18 +20,18 @@ userSchema.methods.generateHash = function(password, callback) {
       if(err) {
         return console.log(err);
       }
-      return callback(null, hash);
+      callback(null, hash);
     });
   });
 };
 
-userSchema.methods.checkPassword = function(password) {
+userSchema.methods.checkPassword = function(password, callback) {
   bcrypt.compare(password, this.basic.password, function(err, result) {
     if(err) { 
       console.log(err);
-      return console.log('there was an error'); 
+      return console.log('there was an error in checking password'); 
     }
-    return result = true; 
+    callback(null, result);
   });
 };
 
