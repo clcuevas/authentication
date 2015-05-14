@@ -2,12 +2,13 @@
 
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var eat = require('eat');
 
 var userSchema = mongoose.Schema({
   username: { type: String, unique: true },
   basic: {
-    email: { type: String, unique: true },
-    password: String
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: true }
   }
 });
 
@@ -33,6 +34,10 @@ userSchema.methods.checkPassword = function(password, callback) {
     }
     callback(null, result);
   });
+};
+
+userSchema.methods.generateToken = function(secret, callback) {
+  eat.encode({id: this._id}, secret, callback);
 };
 
 module.exports = mongoose.model('User', userSchema);

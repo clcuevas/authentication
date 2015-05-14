@@ -2,6 +2,7 @@
 
 var Pet = require('../models/Pet.js');
 var bodyparser = require('body-parser');
+var eatAuth = require('../lib/eat_auth.js')(process.env.APP_SECRET);
 
 module.exports = function(router) {
 	router.use(bodyparser.json());
@@ -17,7 +18,7 @@ module.exports = function(router) {
 		});
 	});
 
-	router.post('/pets', function(req, res) {
+	router.post('/pets', eatAuth, function(req, res) {
 		var newPet = new Pet(req.body);
 
 		newPet.save(function(err, data) {

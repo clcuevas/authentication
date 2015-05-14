@@ -5,6 +5,8 @@ var express = require('express');
 var app = express();
 var passport = require('passport');
 
+process.env.APP_SECRET = process.env.APP_SECRET || 'changethischangethis';
+
 var petRouter = express.Router();
 var userRouter = express.Router();
 

@@ -13,7 +13,6 @@ module.exports = function(router, passport) {
     delete newUserData.password;
 
     var newUser = new User(newUserData);
-    newUser.username = req.body.username;
     newUser.basic.email = req.body.email;
     newUser.basic.password = newUser.generateHash(req.body.password, function(err, hash) {
       if(err) {
@@ -23,16 +22,30 @@ module.exports = function(router, passport) {
 
       newUser.basic.password = hash;
     });
-    newUser.save(function(err, data) {
+    newUser.save(function(err, user) {
       if(err) {
         console.log(err);
         res.status(500).json({msg: 'could not create user'});
       }
-      res.json({msg: 'user created'});
+      
+      user.generateToken(process.env.APP_SECRET, function(err, token) {
+        if(err) {
+          console.log(err);
+          return res.status(500).json({msg: 'error generating token'});
+        }
+
+        res.json({token: token});
+      });
     });
   });
 
   router.get('/signin', passport.authenticate('basic', {session: false}), function(req, res) {
-    res.json({msg: 'authenticated as ' + req.user.basic.email});
+    req.user.generateToken(process.env.APP_SECRET, function(err, token) {
+      if(err) {
+        console.log(err);
+        return res.status(500).json({msg: 'error generating token'});
+      }
+      res.json({token: token});
+    });
   });
 };
