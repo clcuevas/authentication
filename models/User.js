@@ -38,12 +38,9 @@ userSchema.methods.checkPassword = function(password) {
       return console.log('there was an error'); 
     }
     if(result) {
-      return console.log('correct password');
-    } else {
-      return console.log('incorrect password');
-    }
+      result = true;
+    }   
   });
 };
 
 module.exports = mongoose.model('User', userSchema);
-
