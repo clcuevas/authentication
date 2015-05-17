@@ -31,7 +31,7 @@ module.exports = function(router) {
 		});
 	});
 
-	router.put('/pets/:id', function(req, res) {
+	router.put('/pets/:id', eatAuth, function(req, res) {
 		var updatedPet = req.body;
 		delete updatedPet._id;
 
@@ -45,7 +45,7 @@ module.exports = function(router) {
 		});
 	});
 
-	router.delete('/pets/:id', function(req, res) {
+	router.delete('/pets/:id', eatAuth, function(req, res) {
 		Pet.remove({'_id': req.params.id}, function(err, data) {
 			if(err) {
 				console.log(err);
