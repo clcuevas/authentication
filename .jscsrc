@@ -1,0 +1,10 @@
+{
+  "requireCurlyBraces": [ 
+  "if",
+  "else",
+  "for",
+  "while"
+  ],
+  "validateQuoteMarks": "'",
+  "requireCapitalizedConstructors": true
+}
